@@ -1,0 +1,35 @@
+---
+- hosts: all
+  name: Add cis-91 packages
+  become: yes
+  tasks:
+    - name: Install packages 
+      ansible.builtin.apt:
+        update_cache: yes
+        cache_valid_time: 3600
+        name:
+          - python3-pip 
+          - python3-venv
+          - apache2
+          - nodejs
+    - name: Copy index.html file with owner and permissions
+      ansible.builtin.copy:
+        src: index.html
+        dest: /var/www/html/index.html
+        owner: www-data
+        group: www-data
+        mode: '0644'
+    - name: Copy index.css file
+      ansible.builtin.copy:
+        src: index.css
+        dest: /var/www/html/index.css
+        owner: www-data
+        group: www-data
+        mode: '0644'
+    - name: Copy bootstrap.min.css
+      ansible.builtin.copy:
+        src: bootstrap.min.css
+        dest: /var/www/html/bootstrap.min.css
+        owner: www-data
+        group: www-data
+        mode: '0644'
