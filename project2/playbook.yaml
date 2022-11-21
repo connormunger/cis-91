@@ -42,3 +42,8 @@
         owner: www-data
         group: www-data
         mode: '0775'
+    - name: Download backup from GitHub
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/connormunger/cis-91/main/project2/backup.sh
+        dest: /etc/cron.hourly/backup
+        mode: '0775'
