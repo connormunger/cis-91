@@ -1,4 +1,3 @@
-# Put this in /etc/cron.hourly/backup
 TARGET="gs://dokuwiki-backup-storage-bucket-connor-cis91"
 
 tar_file=/tmp/dokuwiki-backup-$(date +%s).tar.gz
