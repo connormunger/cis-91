@@ -15,10 +15,6 @@
       ansible.builtin.file:
         path: /var/www
         state: directory
-    - name: Create the /var/www/html directory (if it doesn't already exist)
-      ansible.builtin.file:
-        path: /var/www/html
-        state: directory
     - name: create an ext4 filtesystem for data
       community.general.filesystem:
         fstype: ext4
@@ -29,6 +25,10 @@
         src: /dev/disk/by-id/google-data 
         fstype: ext4
         state: mounted
+    - name: Create the /var/www/html directory (if it doesn't already exist)
+      ansible.builtin.file:
+        path: /var/www/html
+        state: directory
     - name: Download and unarchive Dokuwiki file
       ansible.builtin.unarchive:
         src: https://download.dokuwiki.org/src/dokuwiki/dokuwiki-stable.tgz
@@ -45,5 +45,5 @@
     - name: Download backup from GitHub
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/connormunger/cis-91/main/project2/backup.sh
-        dest: /etc/cron.hourly/backup.sh
+        dest: /etc/cron.hourly/backup
         mode: '0775'
