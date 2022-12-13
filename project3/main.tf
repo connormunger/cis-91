@@ -34,10 +34,11 @@ resource "google_compute_network" "vpc_network" {
   name = "cis91-network"
 }
 
-resource "google_compute_instance" "vm_instance" {
+resource "google_compute_instance" "db_instance" {
   name         = "db"
   machine_type = "e2-micro"
   tags = ["db"]
+  allow_stopping_for_update = true
 
   boot_disk {
     initialize_params {
@@ -162,6 +163,10 @@ output "lb-ip" {
   value = google_compute_global_address.default.address
 }
 
-output "external-ip" {
+output "db-ip" {
+  value = google_compute_instance.db_instance.network_interface[0].access_config[0].nat_ip
+}
+
+output "webservers-ip" {
   value = google_compute_instance.webservers[*].network_interface[0].access_config[0].nat_ip
 }
