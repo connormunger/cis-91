@@ -93,6 +93,11 @@
           - composer
           - unzip 
       notify: Restart apache
+    - name: Create the health check file. 
+      copy:
+        dest: /var/www/html/health.html
+        content: |
+          <h1>I'm alive</h1>
     - name: Check if MediaWiki is downloaded and installed
       stat: 
         path: /var/www/html/index.html
