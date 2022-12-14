@@ -16,6 +16,20 @@
           - python3-psycopg2
           - libpq-dev
           - acl
+    - name: Create the /var/lib/postgresql directory (if it doesn't exist)
+      ansible.builtin.file:
+        path: /data/lib/postgresql
+        state: directory
+    - name: create an ext4 filtesystem for postgres-data
+      community.general.filesystem:
+        fstype: ext4
+        dev: /dev/disk/by-id/google-postgres-data 
+    - name: Mount my postgres-data disk under /var/lib/postgresql
+      ansible.posix.mount:
+        path: /data/lib/postgresql
+        src: /dev/disk/by-id/google-postgres-data  
+        fstype: ext4
+        state: mounted
     - name: Update postgresql config 
       ansible.builtin.lineinfile:
         path: /etc/postgresql/12/main/postgresql.conf
