@@ -72,6 +72,7 @@ resource "google_compute_instance" "webservers" {
   tags = ["web"]
   labels = {
     name: "web${count.index}"
+    role: "web"
   }
   allow_stopping_for_update = true 
 
@@ -99,6 +100,16 @@ resource "google_compute_firewall" "default-firewall" {
   source_ranges = ["0.0.0.0/0"]
 }
 
+resource "google_compute_firewall" "db-firewall" {
+  name = "db-firewall"
+  network = google_compute_network.vpc_network.name
+  allow {
+    protocol = "tcp"
+    ports = ["5432"]
+  }
+  source_tags = ["web", "db"]
+}
+
 resource "google_compute_health_check" "webservers" {
   name = "webserver-health-check"
 
@@ -107,6 +118,7 @@ resource "google_compute_health_check" "webservers" {
 
   http_health_check {
     port = 80
+    request_path = "/health.html"
   }
 }
 
