@@ -120,6 +120,10 @@ resource "google_compute_health_check" "webservers" {
     port = 80
     request_path = "/health.html"
   }
+
+  log_config {
+    enable = true
+  }
 }
 
 resource "google_compute_instance_group" "webservers" {
