@@ -107,7 +107,7 @@ resource "google_compute_firewall" "db-firewall" {
     protocol = "tcp"
     ports = ["5432"]
   }
-  source_tags = ["web", "db"]
+  source_tags = ["db"]
 }
 
 resource "google_compute_health_check" "webservers" {
@@ -121,9 +121,6 @@ resource "google_compute_health_check" "webservers" {
     request_path = "/health.html"
   }
 
-  log_config {
-    enable = true
-  }
 }
 
 resource "google_compute_instance_group" "webservers" {
